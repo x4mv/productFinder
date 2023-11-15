@@ -26,12 +26,13 @@ def busquedaSuperMas(url, codigoBarras):
 
 
     #Extraerel descuento aplicable en superMas
-    
-    cantidadDescuentoSuperMas = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "p.financiacion")))
-    descuentoSinFormateo = cantidadDescuentoSuperMas.text
-    descuento = re.findall(r'\d+\.\d+|\d+', descuentoSinFormateo)
-    print(f"El descuento aplicable en superMas es: A partir de {descuento[0]} unidades es GS {descuento[1]}")
-
+    try:
+        cantidadDescuentoSuperMas = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "p.financiacion")))
+        descuentoSinFormateo = cantidadDescuentoSuperMas.text
+        descuento = re.findall(r'\d+\.\d+|\d+', descuentoSinFormateo)
+        print(f"El descuento aplicable en superMas es: A partir de {descuento[0]} unidades es GS {descuento[1]}")
+    except: 
+        descuento = "no hay descuento"
 
 
 

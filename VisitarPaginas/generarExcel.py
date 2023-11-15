@@ -8,11 +8,11 @@ import leyendoExcel
 
 
 #Desempaquetar los resultados de la funcion superMas
-preciosSuperMas = busquedaSuperMas("https://www.supermas.com.py/", 7896110011158)
+preciosSuperMas = busquedaSuperMas("https://www.supermas.com.py/",7896110011158)
 precioConDescuentoSuperMas, precioSinDescuentoSuperMas, descuento = preciosSuperMas
 
 #Desempaquetar los resultados de la funcion SuperReal
-preciosSuperReal = busquedaSuperReal("https://www.realonline.com.py/", leyendoExcel.b4.value)
+preciosSuperReal = busquedaSuperReal("https://www.realonline.com.py/",7798303170713)
 precioConDescuentoSuperReal, precioSinDescuentoSuperReal = preciosSuperReal
 
 
@@ -29,7 +29,7 @@ sheet['B1'] = 'Nombre del producto'
 sheet['B1'].font = Font(bold=True)
 sheet['B2'] = c4.value
 
-sheet['C1'] = 'Descuento Supermass'
+sheet['C1'] = 'Descuento al por mayor Supermass'
 sheet['C1'].font = Font(bold=True)
 sheet['C2'] = f"A partir de {descuento[0]} es GS {descuento[1]}"
 
@@ -43,8 +43,9 @@ sheet['E1'] = 'Precio con Descuento superMass'
 sheet['E1'].font = Font(bold=True)
 sheet['E2'] = precioConDescuentoSuperMas
 
-sheet['F1'] = 'Descuento Real'
+sheet['F1'] = 'Descuento en super Real (%)'
 sheet['F1'].font = Font(bold=True)
+sheet['F2'] = round(100 - (float(precioConDescuentoSuperReal)*100 / float(precioSinDescuentoSuperReal)),2)
 
 
 sheet['G1'] = 'Precio con Descuento Real'

@@ -32,25 +32,25 @@ def busquedaSuperReal(url, codigoBarras):
     precioFormateadoSuperReal = re.findall(r'\d+\.\d+|\d+', precioTextoSuperReal)
 
     # Imprimir los números encontrados del precio con descuento
-    for precioConDescuentoSuperReal in precioFormateadoSuperReal:
-        print("El precio actual en super Real es:", precioConDescuentoSuperReal)
+    precioConDescuentoSuperReal = precioFormateadoSuperReal[0]
+    print("El precio actual en super Real es:", precioConDescuentoSuperReal)
 
     # Intentar extraer el valor del precio anterior (si los hay) del producto
     try:
         precioSinDescuentoSuperReal = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "old-price-15160")))
-        precioAntText = precioSinDescuentoSuperReal.text.strip()
+        precioSinDescuentoText = precioSinDescuentoSuperReal.text.strip()
 
         # Utilizar una expresión regular para extraer los números del precio anterior (si los hay) del producto
-        precioSinDescuentoFormateadoSuperMas = re.findall(r'\d+\.\d+|\d+', precioAntText)
+        precioSinDescuentoFormateadoSuperMas = re.findall(r'\d+\.\d+|\d+', precioSinDescuentoText)
+        precioSinDescuentoSuperReal = precioSinDescuentoFormateadoSuperMas[0]
 
         # Imprimir los números encontrados del precio anterior (si los hay) del producto
-        for precioSinDescuentoSuperReal in precioSinDescuentoFormateadoSuperMas:
-            print("El precio sin descuento en super Real es:", precioSinDescuentoSuperReal)
+        print("El precio sin descuento en super Real es: ",precioSinDescuentoSuperReal)
     except:
         precioSinDescuentoSuperReal = "No esta en descuento en superReal"
         print(precioSinDescuentoSuperReal)
 
-        return precioConDescuentoSuperReal, precioSinDescuentoSuperReal
+    return precioConDescuentoSuperReal, precioSinDescuentoSuperReal
 
     # Esperar a que se carguen los resultados de búsqueda
     time.sleep(20)  # Puedes ajustar el tiempo de espera según sea necesario
