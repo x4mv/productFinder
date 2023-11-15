@@ -8,6 +8,12 @@ import re
 
 
 def busquedaSuperMas(url, codigoBarras):
+
+    if codigoBarras == None:
+        precioConDescuentoSuperMas = 'NA'
+        precioSinDescuentoSuperMas = 'NA'
+        descuento = ['NA', 'NA']
+        return precioSinDescuentoSuperMas, precioConDescuentoSuperMas, descuento
     # Abriendo la página SuperMas
     driver = webdriver.Chrome()
     driver.get(url)
@@ -21,8 +27,14 @@ def busquedaSuperMas(url, codigoBarras):
     buscadorSuperMas.click()
 
     # Hacer clic en la imagen del producto de superMass
-    imagenProductoSuperMas = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "img.wp-post-image.lazy.loaded")))
-    imagenProductoSuperMas.click()
+    try:
+        imagenProductoSuperMas = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "img.wp-post-image.lazy.loaded")))
+        imagenProductoSuperMas.click()
+    except:
+        precioConDescuentoSuperMas = 'NA'
+        precioSinDescuentoSuperMas = 'NA'
+        descuento = ['NA', 'NA']
+        return precioSinDescuentoSuperMas, precioConDescuentoSuperMas, descuento
 
 
     #Extraerel descuento aplicable en superMas
@@ -63,7 +75,6 @@ def busquedaSuperMas(url, codigoBarras):
         precioSinDescuentoSuperMas = "No esta en descuento en SuperMas"
         print(precioSinDescuentoSuperMas)
 
-        return precioConDescuentoSuperMas, precioSinDescuentoSuperMas, descuento
+    
 
-    # Esperar a que se carguen los resultados de búsqueda
-    time.sleep(20)  # Puedes ajustar el tiempo de espera según sea necesario
+    return precioConDescuentoSuperMas, precioSinDescuentoSuperMas, descuento
