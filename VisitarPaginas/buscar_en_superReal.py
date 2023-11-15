@@ -66,4 +66,3 @@ def busquedaSuperReal(url, codigoBarras):
 
     return precioConDescuentoSuperReal, precioSinDescuentoSuperReal, descuentoReal
 
-   
