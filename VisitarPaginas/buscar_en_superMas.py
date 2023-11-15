@@ -7,7 +7,7 @@ import time
 import re
 
 
-def busquedaSuperMas(url, codigoBarras):
+def busquedaSuperMas(url, codigoBarras,driver):
 
     if codigoBarras == None:
         precioConDescuentoSuperMas = 'NA'
@@ -15,7 +15,6 @@ def busquedaSuperMas(url, codigoBarras):
         descuento = ['NA', 'NA']
         return precioSinDescuentoSuperMas, precioConDescuentoSuperMas, descuento
     # Abriendo la página SuperMas
-    driver = webdriver.Chrome()
     driver.get(url)
 
     # Enviar los valores del codigo de barra del producto al buscador de superMass 

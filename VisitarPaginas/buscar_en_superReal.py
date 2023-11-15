@@ -7,9 +7,9 @@ import time
 import re
 
 
-def busquedaSuperReal(url, codigoBarras):
+def busquedaSuperReal(url, codigoBarras, driver):
     # Abriendo la página SuperMas
-    driver = webdriver.Chrome()
+    
     driver.get(url)
 
     if codigoBarras == None:
