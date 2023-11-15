@@ -1,6 +1,5 @@
 from openpyxl import Workbook
 from openpyxl.styles import Font
-from leyendoExcel import b4, c4
 from buscar_en_superMas import busquedaSuperMas
 from buscar_en_superReal import busquedaSuperReal
 from datetime import datetime
@@ -10,6 +9,8 @@ from selenium import webdriver
 
 # Instancia del navegador fuera del bucle
 driver = webdriver.Chrome()
+
+
 
 # Crear un libro de trabajo
 book = Workbook()
@@ -36,6 +37,7 @@ sheet['H1'].font = Font(bold=True)
 fecha = datetime.now().strftime("%m_%d_%y")
 
 #automatizar para todos los productos
+
 counter = 2   
 for codigoProducto in range(len(arrayCodigos)):
     
@@ -54,7 +56,7 @@ for codigoProducto in range(len(arrayCodigos)):
 
     except TimeoutException as e:
         print(f"Error de tiempo de espera en la primera página: {e}")
-    
+
 
 counter2 = 2
 for codigoProducto2 in range(len(arrayCodigos)):
