@@ -1,6 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 import re
 
 
@@ -12,8 +13,7 @@ def busquedaSuperReal(url, codigoBarras, driver):
     if codigoBarras == None:
         precioConDescuentoSuperReal = '-'
         precioSinDescuentoSuperReal = '-'
-        descuentoReal = '-'
-        return precioSinDescuentoSuperReal, precioConDescuentoSuperReal, descuentoReal
+        return precioConDescuentoSuperReal, precioSinDescuentoSuperReal
 
     # Enviar los valores del codigo de barra del producto al buscador de superMass 
     producto = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input.amsearch-input")))
@@ -30,8 +30,7 @@ def busquedaSuperReal(url, codigoBarras, driver):
     except: 
         precioConDescuentoSuperReal = '-'
         precioSinDescuentoSuperReal = '-'
-        descuentoReal = '-'
-        return precioSinDescuentoSuperReal, precioConDescuentoSuperReal, descuentoReal
+        return precioConDescuentoSuperReal, precioSinDescuentoSuperReal
 
     # Extraer el valor del precio del producto de superMass
     precioReferenciaSuperReal = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.CSS_SELECTOR,  '[data-price-type="finalPrice"]')))
@@ -42,24 +41,29 @@ def busquedaSuperReal(url, codigoBarras, driver):
 
     # Imprimir los números encontrados del precio con descuento
     precioConDescuentoSuperReal = precioFormateadoSuperReal[0]
-    print("El precio actual en super Real es:", precioConDescuentoSuperReal)
 
     # Intentar extraer el valor del precio anterior (si los hay) del producto
     try:
-        precioSinDescuentoSuperReal = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, '[data-price-type="oldPrice"]')))
+        precioSinDescuentoSuperReal = WebDriverWait(driver, 3).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-price-type="oldPrice"]')))
         precioSinDescuentoText = precioSinDescuentoSuperReal.text.strip()
 
         # Utilizar una expresión regular para extraer los números del precio anterior (si los hay) del producto
         precioSinDescuentoFormateadoSuperMas = re.findall(r'\d+\.\d+|\d+', precioSinDescuentoText)
         precioSinDescuentoSuperReal = precioSinDescuentoFormateadoSuperMas[0]
-
-        descuentoReal = round((100.00 - (float(precioConDescuentoSuperReal)*100.00 / float(precioSinDescuentoSuperReal))),2)
-        # Imprimir los números encontrados del precio anterior (si los hay) del producto
-        print("El precio sin descuento en super Real es: ",precioSinDescuentoSuperReal)
-    except:
+    except TimeoutException:
         precioSinDescuentoSuperReal = "-"
-        print(precioSinDescuentoSuperReal)
-        descuentoReal = "-"
+    except Exception as e:
+        precioSinDescuentoSuperReal = "-"
 
-    return precioConDescuentoSuperReal, precioSinDescuentoSuperReal, descuentoReal
+
+
+    return precioConDescuentoSuperReal, precioSinDescuentoSuperReal
+
+
+
+    
+        
+
+    
 

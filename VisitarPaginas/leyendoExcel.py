@@ -1,17 +1,30 @@
 import os
 import openpyxl
+from tkinter import filedialog
 
-book = openpyxl.load_workbook(r'C:\Users\IDEAPAD\Desktop\buscador\excel\compras_mensuales_cod_supermas.xlsx')
+
+
+def seleccionar_archivo():
+        archivo = filedialog.askopenfilename(
+        title="Seleccionar archivo", 
+        filetypes=[("Archivos Python", "*"), ("Todos los archivos", "*.*")]
+    )
+        if archivo:
+            # El usuario ha seleccionado un archivo, puedes hacer algo con él
+            return archivo
+
+ruta = seleccionar_archivo()
+
+book = openpyxl.load_workbook(ruta)
 
 sheet = book.active
 
 #Codigo del producto
 
-b4 = sheet['B4']
 
 #nombre del producto
 #sheet.max_row
-c4 = sheet['C4']
+
 
 #Arreglo con los codigos 
 arrayCodigos = []
@@ -26,6 +39,4 @@ for filaCodigo in sheet.iter_rows(min_row=4, max_row = sheet.max_row, min_col =2
         arrayCodigos.append(filaCodigo[0])
         arrayNombreProducto.append(filaCodigo[1])
 
-# print("Los codigos de los productos son: ", arrayCodigos)
-print("Los Nombres de los productos son: ", arrayNombreProducto)
 

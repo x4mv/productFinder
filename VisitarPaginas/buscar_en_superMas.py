@@ -39,11 +39,9 @@ def busquedaSuperMas(url, codigoBarras,driver):
         cantidadDescuentoSuperMas = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "p.financiacion")))
         descuentoSinFormateo = cantidadDescuentoSuperMas.text
         descuento = re.findall(r'\d+\.\d+|\d+', descuentoSinFormateo)
-        print(f"El descuento aplicable en superMas es: A partir de {descuento[0]} unidades es GS {descuento[1]}")
+        
     except: 
         descuento = ["-", "-"]
-
-
 
     # Extraer el valor del precio del producto de superMass
     precioReferenciaSuperMas = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.ID, "producto-precio")))
@@ -52,10 +50,7 @@ def busquedaSuperMas(url, codigoBarras,driver):
     # Utilizar una expresión regular para extraer los números del precio actual del producto
     precioFormateadoSuperMas = re.findall(r'\d+\.\d+|\d+', precioTextoSuperMas)
 
-
-    # Imprimir los números encontrados del precio con descuento
-    for precioConDescuentoSuperMas in precioFormateadoSuperMas:
-        print("El precio actual en SuperMas es:", precioConDescuentoSuperMas)
+    precioConDescuentoSuperMas = precioFormateadoSuperMas[0]
 
     # Intentar extraer el valor del precio anterior (si los hay) del producto
     try:
@@ -64,14 +59,15 @@ def busquedaSuperMas(url, codigoBarras,driver):
 
         # Utilizar una expresión regular para extraer los números del precio anterior (si los hay) del producto
         precioSinDescuentoFormateadoSuperMas = re.findall(r'\d+\.\d+|\d+', precioAntText)
-        print("Precio sin descuento en SuperMas ", precioSinDescuentoFormateadoSuperMas[0])
+        
         
         precioSinDescuentoSuperMas = precioSinDescuentoFormateadoSuperMas[0]
+        return precioConDescuentoSuperMas, precioSinDescuentoSuperMas, descuento
 
     except:
         precioSinDescuentoSuperMas = "-"
-        print(precioSinDescuentoSuperMas)
+        
 
+        
+        return precioConDescuentoSuperMas, precioSinDescuentoSuperMas, descuento
     
-
-    return precioConDescuentoSuperMas, precioSinDescuentoSuperMas, descuento
