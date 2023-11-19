@@ -7,6 +7,7 @@ from leyendoExcel import arrayCodigos, arrayNombreProducto
 from selenium.common.exceptions import TimeoutException
 from selenium import webdriver
 import getpass
+import os
 
 # Instancia del navegador fuera del bucle
 driver = webdriver.Chrome()
@@ -32,11 +33,9 @@ sheet['F1'] = 'Precio Actual Real'
 sheet['F1'].font = Font(bold=True)
 sheet['G1'] = 'Precio sin Descuento Real'
 sheet['G1'].font = Font(bold=True)
-# Extraer la fecha de la consulta
-fecha = datetime.now().strftime("%m_%d_%y")
+
 
 #automatizar para todos los productos
-
 
 counter = 2   
 for codigoProducto in range(len(arrayCodigos)):
@@ -59,6 +58,7 @@ for codigoProducto in range(len(arrayCodigos)):
 
     except TimeoutException as e:
         print(f"Error de tiempo de espera en la primera página: {e}")
+
 
 
 
@@ -89,8 +89,23 @@ for codigoProducto2 in range(len(arrayCodigos)):
 driver.quit()
 
 # Guardar el libro de trabajo
+# Extraer la fecha de la consulta
+fecha = datetime.now().strftime("%m_%d_%y")
+
+
+#obtener el usuario
 user = getpass.getuser()
-book.save(f'c:/Users/{user}/Desktop/Productos_Supermercados_prueba_{fecha}.xlsx')
+current_directory = os.getcwd()
+
+# Obtener la ruta del escritorio
+desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+
+# Construir la ruta del archivo usando el escritorio y el nombre del archiv
+file_name = f'Productos_Supermercados_prueba_{fecha}.xlsx'
+file_path = os.path.join(desktop_path, file_name)
+
+
+book.save(file_path)
 
 
 

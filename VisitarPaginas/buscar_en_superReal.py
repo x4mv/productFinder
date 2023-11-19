@@ -26,7 +26,6 @@ def busquedaSuperReal(url, codigoBarras, driver):
     # Hacer clic en la imagen del producto de superMass
     try:
         imagenProductoSuperReal = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "img.product-image-photo.ls-is-cached.lazyloaded")))
-        imagenProductoSuperReal.click()
     except: 
         precioConDescuentoSuperReal = '-'
         precioSinDescuentoSuperReal = '-'
@@ -44,13 +43,13 @@ def busquedaSuperReal(url, codigoBarras, driver):
 
     # Intentar extraer el valor del precio anterior (si los hay) del producto
     try:
-        precioSinDescuentoSuperReal = WebDriverWait(driver, 3).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-price-type="oldPrice"]')))
+        precioSinDescuentoSuperReal = WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-price-type="oldPrice"]')))
         precioSinDescuentoText = precioSinDescuentoSuperReal.text.strip()
 
         # Utilizar una expresión regular para extraer los números del precio anterior (si los hay) del producto
         precioSinDescuentoFormateadoSuperMas = re.findall(r'\d+\.\d+|\d+', precioSinDescuentoText)
         precioSinDescuentoSuperReal = precioSinDescuentoFormateadoSuperMas[0]
+        precioSinDescuentoFormateadoSuperMas.pop()
     except TimeoutException:
         precioSinDescuentoSuperReal = "-"
     except Exception as e:
