@@ -1,4 +1,3 @@
-import os
 import openpyxl
 from tkinter import filedialog
 
@@ -28,7 +27,7 @@ def leer():
     sheet = book.active
 
     # Itera a través de todas las filas en la hoja de trabajo
-    for filaCodigo in sheet.iter_rows(min_row=4, max_row = sheet.max_row, min_col =2, max_col = 3, values_only=True):
+    for filaCodigo in sheet.iter_rows(min_row=2, max_row = sheet.max_row, min_col =2, max_col = 3, values_only=True):
         # `fila` es una tupla que contiene los valores de cada celda en la fila actual
         if filaCodigo[0] != None:
             arrayCodigos.append(filaCodigo[0])

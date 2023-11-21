@@ -6,7 +6,6 @@ from datetime import datetime
 from leyendoExcel import arrayNombreProducto, arrayCodigos
 from selenium.common.exceptions import TimeoutException
 from selenium import webdriver
-import getpass
 import os
 
 def generar():
